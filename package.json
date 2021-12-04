@@ -15,8 +15,7 @@
     "debug": "^4.3.3",
     "express": "^4.17.1",
     "http-errors": "^1.8.1",
-    "joi": "^17.5.0",
-    "yup": "^0.32.11"
+    "joi": "^17.5.0"
   },
   "devDependencies": {
     "eslint": "^8.2.0",
