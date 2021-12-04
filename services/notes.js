@@ -1,8 +1,6 @@
 import prisma from '../providers/prisma.js';
 
-const DEFAULT_LIMIT = 10;
-
-export function getNotes(limit = DEFAULT_LIMIT) {
+export function getNotes(limit) {
   return prisma.notes.findMany({ take: limit });
 }
 
