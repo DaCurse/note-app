@@ -11,12 +11,11 @@ async function loadRoutes(app) {
     .map((entry) => new URL(entry, currentDirectory))
     .filter((url) => url.toString() !== import.meta.url)
     .map((url) => import(url));
-  const loadedRoutes = await Promise.all(routes);
 
-  loadedRoutes.forEach((route) => {
+  for await (const route of routes) {
     app.use(route.prefix, route.router);
     debug(`Registered route ${route.prefix}`);
-  });
+  }
 }
 
 export default loadRoutes;
