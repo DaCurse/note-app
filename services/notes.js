@@ -1,7 +1,9 @@
 import prisma from '../providers/prisma.js';
 
-export function getNotes() {
-  return prisma.notes.findMany();
+const DEFAULT_LIMIT = 10;
+
+export function getNotes(limit = DEFAULT_LIMIT) {
+  return prisma.notes.findMany({ take: limit });
 }
 
 export function getNoteById(id) {

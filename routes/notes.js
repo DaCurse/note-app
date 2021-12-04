@@ -5,9 +5,13 @@ import { getNoteById, getNotes } from '../services/notes.js';
 
 const router = Router();
 
-router.get('/', async (_req, res) => {
-  res.json(await getNotes());
-});
+router.get(
+  '/',
+  validate(Joi.object({ limit: Joi.number().integer() }), 'query'),
+  async (req, res) => {
+    res.json(await getNotes(req.query.limit));
+  }
+);
 
 router.get(
   '/:id',
