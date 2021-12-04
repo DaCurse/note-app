@@ -1,0 +1,26 @@
+{
+  "name": "note-app",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write \"./**/*.js\" \"bin/*\"",
+    "lint": "eslint --fix \"./**/*.js\" \"bin/*\"",
+    "start": "node ./bin/server.js",
+    "start:dev": "nodemon ./bin/server.js"
+  },
+  "dependencies": {
+    "debug": "^4.3.3",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.1",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.0"
+  }
+}
