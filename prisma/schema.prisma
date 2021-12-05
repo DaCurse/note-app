@@ -12,5 +12,5 @@ model notes {
   title      String   @db.VarChar(255)
   content    String
   created_at DateTime @default(now()) @db.Timestamp(6)
-  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6) @updatedAt
 }
