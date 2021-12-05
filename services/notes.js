@@ -15,3 +15,12 @@ export function getNoteById(id) {
 export function createNote(noteDTO) {
   return prisma.notes.create({ data: noteDTO });
 }
+
+export function updateNote(id, noteDTO) {
+  return prisma.notes.update({
+    where: {
+      note_id: id,
+    },
+    data: noteDTO,
+  });
+}

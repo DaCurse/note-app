@@ -5,7 +5,12 @@ import {
   getNotesSchema,
   noteDTOSchema,
 } from '../schemas/notes.js';
-import { createNote, getNoteById, getNotes } from '../services/notes.js';
+import {
+  createNote,
+  getNoteById,
+  getNotes,
+  updateNote,
+} from '../services/notes.js';
 
 const router = Router();
 
@@ -19,6 +24,13 @@ router.get('/:id', validate(getNoteByIdSchema, 'params'), async (req, res) =>
 
 router.post('/', validate(noteDTOSchema, 'body'), async (req, res) =>
   res.json(await createNote(req.body))
+);
+
+router.put(
+  '/:id',
+  validate(getNoteByIdSchema, 'params'),
+  validate(noteDTOSchema, 'body'),
+  async (req, res) => res.json(await updateNote(req.params.id, req.body))
 );
 
 export const prefix = '/notes';
