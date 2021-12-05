@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@prisma/client': ^3.6.0
   debug: ^4.3.3
+  dotenv: ^10.0.0
   eslint: ^8.2.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-import: ^2.25.3
@@ -17,6 +18,7 @@ specifiers:
 dependencies:
   '@prisma/client': 3.6.0_prisma@3.6.0
   debug: 4.3.3
+  dotenv: 10.0.0
   express: 4.17.1
   http-errors: 1.8.1
   joi: 17.5.0
@@ -487,6 +489,11 @@ packages:
     dependencies:
       is-obj: 2.0.0
     dev: true
+
+  /dotenv/10.0.0:
+    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
+    engines: {node: '>=10'}
+    dev: false
 
   /duplexer3/0.1.4:
     resolution: {integrity: sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=}

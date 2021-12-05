@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
 import createDebug from 'debug';
+import dotenv from 'dotenv';
 import { createServer } from 'http';
 import createApp from '../app.js';
 import prisma from '../providers/prisma.js';
+
+dotenv.config();
 
 const debug = createDebug('note-app:server');
 
