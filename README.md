@@ -40,8 +40,10 @@ pnpm start:dev
 Or for production:
 
 ```
-pnpm start
+DEBUG=note-app:* pnpm start
 ```
+
+_The `DEBUG` environment variable doesn't work with `.env` files._
 
 ## License
 
