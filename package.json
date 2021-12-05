@@ -1,19 +1,22 @@
 {
   "name": "note-app",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "prisma generate",
     "format": "prettier --write \"./**/*.js\" \"bin/*\"",
     "lint": "eslint --fix \"./**/*.js\" \"bin/*\"",
     "start": "node ./bin/server.js",
     "start:dev": "nodemon ./bin/server.js"
   },
   "dependencies": {
+    "@prisma/client": "^3.6.0",
     "debug": "^4.3.3",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "http-errors": "^1.8.1",
-    "yup": "^0.32.11"
+    "joi": "^17.5.0"
   },
   "devDependencies": {
     "eslint": "^8.2.0",
@@ -21,6 +24,7 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.15",
-    "prettier": "^2.5.0"
+    "prettier": "^2.5.0",
+    "prisma": "^3.6.0"
   }
 }

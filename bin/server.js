@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
 import createDebug from 'debug';
+import dotenv from 'dotenv';
 import { createServer } from 'http';
 import createApp from '../app.js';
+import prisma from '../providers/prisma.js';
+
+dotenv.config();
 
 const debug = createDebug('note-app:server');
 
@@ -48,6 +52,10 @@ function onListening(addr) {
   debug('Listening on ' + bind);
 }
 
+function onClose() {
+  prisma.$disconnect();
+}
+
 async function bootstrap() {
   const app = await createApp();
   const port = normalizePort(process.env.PORT || '3000');
@@ -57,6 +65,7 @@ async function bootstrap() {
   server.listen(port);
   server.on('error', onError.bind(null, port));
   server.on('listening', onListening.bind(null, server.address()));
+  server.on('close', onClose);
 }
 
 bootstrap();
