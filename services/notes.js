@@ -11,3 +11,7 @@ export function getNoteById(id) {
     },
   });
 }
+
+export function createNote(noteDTO) {
+  return prisma.notes.create({ data: noteDTO });
+}
