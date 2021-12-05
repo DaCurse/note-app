@@ -9,7 +9,7 @@ async function loadRoutes(directory, app) {
   const entries = await readdir(baseURL);
   const routes = entries
     .map((entry) => new URL(entry, baseURL))
-    .filter((url) => url.toString().endsWith('.js'))
+    .filter((url) => url.pathname.endsWith('.js'))
     .map((url) => import(url));
 
   for await (const route of routes) {
