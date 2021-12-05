@@ -1,15 +1,15 @@
 import createDebug from 'debug';
 import { readdir } from 'fs/promises';
+import { pathToFileURL } from 'url';
 
 const debug = createDebug('note-app:routes');
 
-const currentDirectory = new URL('.', import.meta.url);
-
-async function loadRoutes(app) {
-  const entries = await readdir(currentDirectory);
+async function loadRoutes(directory, app) {
+  const baseURL = pathToFileURL(directory + '/');
+  const entries = await readdir(baseURL);
   const routes = entries
-    .map((entry) => new URL(entry, currentDirectory))
-    .filter((url) => url.toString() !== import.meta.url)
+    .map((entry) => new URL(entry, baseURL))
+    .filter((url) => url.toString().endsWith('.js'))
     .map((url) => import(url));
 
   for await (const route of routes) {
