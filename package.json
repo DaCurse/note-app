@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@prisma/client": "^3.6.0",
+    "prisma": "^3.6.0",
     "debug": "^4.3.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -24,7 +25,6 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.15",
-    "prettier": "^2.5.0",
-    "prisma": "^3.6.0"
+    "prettier": "^2.5.0"
   }
 }
