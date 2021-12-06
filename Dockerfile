@@ -15,4 +15,4 @@ RUN pnpm i --production --unsafe-perm
 
 EXPOSE ${PORT}
 
-CMD ["/bin/sh", "-c", "pnpm exec prisma migrate deploy && pnpm start"]
+CMD ["/bin/sh", "-c", "pnpm migrate && pnpm start"]
