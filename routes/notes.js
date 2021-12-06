@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import createHttpError from 'http-errors';
 import validate from '../middleware/validate.js';
 import {
   getNoteByIdSchema,
@@ -18,8 +19,17 @@ router.get('/', validate(getNotesSchema, 'query'), async (req, res) =>
   res.json(await getNotes(req.query.limit))
 );
 
-router.get('/:id', validate(getNoteByIdSchema, 'params'), async (req, res) =>
-  res.json(await getNoteById(req.params.id))
+router.get(
+  '/:id',
+  validate(getNoteByIdSchema, 'params'),
+  async (req, res, next) => {
+    const note = await getNoteById(req.params.id);
+    if (note) {
+      res.json(note);
+    } else {
+      next(createHttpError(404, 'Note not found'));
+    }
+  }
 );
 
 router.post('/', validate(noteDTOSchema, 'body'), async (req, res) =>
