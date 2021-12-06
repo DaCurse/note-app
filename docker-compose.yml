@@ -1,0 +1,20 @@
+version: "3.1"
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - /var/lib/note-app/data:/var/lib/postgresql/data/pgdata
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: note-app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  note-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 80:80
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/note-app?schema=public

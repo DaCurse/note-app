@@ -27,23 +27,59 @@ Rename [.env.example](./.env.example) to `.env` and change `DATABASE_URL` to a p
 
 Install dependencies using your preferred package manager (I use [pnpm](https://pnpm.io/)):
 
-```
+```sh
 pnpm i
 ```
 
 Run in watch mode (for development):
 
-```
+```sh
 pnpm start:dev
 ```
 
 Or for production:
 
-```
+```sh
 DEBUG=note-app:* pnpm start
 ```
 
 _The `DEBUG` environment variable doesn't work with `.env` files._
+
+### With Docker
+
+Build an image from the repo:
+
+```sh
+sudo docker image build https://github.com/DaCurse/note-app.git -t note-app:latest
+```
+
+And create a container:
+```sh
+docker run -d \
+  -it \
+  --restart unless-stopped \
+  --name note-app -p 80:80 \
+  -e "DATABASE_URL=<postgres connection string>" \
+  --mount type=bind,source=/var/lib/note-app/data,target=/var/lib/postgresql/data/pgdata \
+  note-app:latest
+```
+
+### With docker-compose
+
+With `docker-compose`, a `postgres` server is started alongisde the app.
+
+Clone the repo:
+
+```sh
+git clone https://github.com/DaCurse/note-app.git
+cd note-app
+```
+
+Start the app:
+
+```sh
+sudo docker-compose up -d
+```
 
 ## License
 

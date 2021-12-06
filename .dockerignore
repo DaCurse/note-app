@@ -1,0 +1,6 @@
+/node_modules
+*.md
+*.yml
+*.yaml
+*.example
+nodemon.json
