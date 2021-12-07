@@ -15,4 +15,5 @@ RUN pnpm i --production --unsafe-perm
 
 EXPOSE ${PORT}
 
+RUN chmod +x ./entrypoint.sh
 ENTRYPOINT [ "./entrypoint.sh" ]
