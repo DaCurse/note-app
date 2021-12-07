@@ -1,6 +1,7 @@
 import createDebug from 'debug';
 import { readdir } from 'fs/promises';
 import { pathToFileURL } from 'url';
+import AsyncRouter from './async-router.js';
 
 const debug = createDebug('note-app:routes');
 
@@ -13,7 +14,12 @@ async function loadRoutes(directory, app) {
     .map((url) => import(url));
 
   for await (const route of routes) {
-    app.use(route.prefix, route.router);
+    app.use(
+      route.prefix,
+      route.router instanceof AsyncRouter
+        ? route.router.expressRouter
+        : route.router
+    );
     debug(`Registered route ${route.prefix}`);
   }
 }
