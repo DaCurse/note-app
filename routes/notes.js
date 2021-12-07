@@ -1,11 +1,7 @@
 import { Router } from 'express';
 import createHttpError from 'http-errors';
+import { getNoteByIdDTO, getNotesDTO, noteDTO } from '../dto/notes.js';
 import validate from '../middleware/validate.js';
-import {
-  getNoteByIdSchema,
-  getNotesSchema,
-  noteDTOSchema,
-} from '../schemas/notes.js';
 import {
   createNote,
   getNoteById,
@@ -15,13 +11,13 @@ import {
 
 const router = Router();
 
-router.get('/', validate(getNotesSchema, 'query'), async (req, res) =>
+router.get('/', validate(getNotesDTO, 'query'), async (req, res) =>
   res.json(await getNotes(req.query.limit))
 );
 
 router.get(
   '/:id',
-  validate(getNoteByIdSchema, 'params'),
+  validate(getNoteByIdDTO, 'params'),
   async (req, res, next) => {
     const note = await getNoteById(req.params.id);
     if (note) {
@@ -32,14 +28,14 @@ router.get(
   }
 );
 
-router.post('/', validate(noteDTOSchema, 'body'), async (req, res) =>
+router.post('/', validate(noteDTO, 'body'), async (req, res) =>
   res.json(await createNote(req.body))
 );
 
 router.put(
   '/:id',
-  validate(getNoteByIdSchema, 'params'),
-  validate(noteDTOSchema, 'body'),
+  validate(getNoteByIdDTO, 'params'),
+  validate(noteDTO, 'body'),
   async (req, res) => res.json(await updateNote(req.params.id, req.body))
 );
 
