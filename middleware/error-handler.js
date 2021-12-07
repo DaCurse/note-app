@@ -1,7 +1,6 @@
+import createErrorResponse from '../util/create-error-response.js';
+
 export default function errorHandler(error, _req, res, _next) {
-  const status = error.status || 500;
-  res.status(status).json({
-    status,
-    message: error.message || 'Internal Server Error',
-  });
+  const errorResponse = createErrorResponse(error);
+  res.status(errorResponse.statusCode).json(errorResponse);
 }
