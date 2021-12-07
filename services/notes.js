@@ -1,11 +1,11 @@
 import prisma from '../providers/prisma.js';
 
 export function getNotes(limit) {
-  return prisma.notes.findMany({ take: limit });
+  return prisma.note.findMany({ take: limit });
 }
 
 export function getNoteById(id) {
-  return prisma.notes.findUnique({
+  return prisma.note.findUnique({
     where: {
       note_id: id,
     },
@@ -13,11 +13,11 @@ export function getNoteById(id) {
 }
 
 export function createNote(noteDTO) {
-  return prisma.notes.create({ data: noteDTO });
+  return prisma.note.create({ data: noteDTO });
 }
 
 export function updateNote(id, noteDTO) {
-  return prisma.notes.update({
+  return prisma.note.update({
     where: {
       note_id: id,
     },
