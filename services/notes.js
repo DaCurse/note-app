@@ -7,7 +7,7 @@ export function getNotes(limit) {
 export function getNoteById(id) {
   return prisma.note.findUnique({
     where: {
-      note_id: id,
+      noteId: id,
     },
   });
 }
@@ -19,7 +19,7 @@ export function createNote(noteDTO) {
 export function updateNote(id, noteDTO) {
   return prisma.note.update({
     where: {
-      note_id: id,
+      noteId: id,
     },
     data: noteDTO,
   });
