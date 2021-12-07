@@ -15,4 +15,4 @@ RUN pnpm i --production --unsafe-perm
 
 EXPOSE ${PORT}
 
-CMD ["/bin/sh", "-c", "pnpm migrate && pnpm start"]
+ENTRYPOINT [ "./entrypoint.sh" ]
