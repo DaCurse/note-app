@@ -13,7 +13,6 @@ export async function createUser(userDTO) {
       data: { username, passwordHash },
     });
   } catch (error) {
-    console.log('123');
     if (error?.code === 'P2002') {
       throw new Conflict('Username already exists');
     }
