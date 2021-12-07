@@ -8,24 +8,24 @@ datasource db {
 }
 
 model Note {
-  note_id    Int      @id @default(autoincrement())
-  title      String   @db.VarChar(255)
-  content    String
-  created_at DateTime @default(now()) @db.Timestamp(6)
-  updated_at DateTime @default(now()) @updatedAt @db.Timestamp(6)
-  user_id    Int
-  user       User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  noteId    Int      @id @default(autoincrement()) @map("note_id")
+  title     String   @db.VarChar(255)
+  content   String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  userId    Int      @map("user_id")
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("notes")
 }
 
 model User {
-  user_id       Int      @id @default(autoincrement())
-  username      String   @db.VarChar(32)
-  password_hash String   @db.VarChar(255)
-  created_at    DateTime @default(now()) @db.Timestamp(6)
-  updated_at    DateTime @default(now()) @updatedAt @db.Timestamp(6)
-  notes         Note[]
+  userId       Int      @id @default(autoincrement()) @map("user_id")
+  username     String   @db.VarChar(32)
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  notes        Note[]
 
   @@unique([username])
   @@map("users")
