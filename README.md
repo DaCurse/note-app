@@ -23,7 +23,7 @@ If `req.query` doesn't match the schema, I get an error:
 
 ## Running the project
 
-Rename [.env.example](./.env.example) to `.env` and change `DATABASE_URL` to a proper postgres connection string.
+Rename [.env.example](./.env.example) to `.env` and fill in the required information.
 
 Install dependencies using your preferred package manager (I use [pnpm](https://pnpm.io/)):
 
