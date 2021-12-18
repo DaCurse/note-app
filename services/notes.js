@@ -8,7 +8,7 @@ export function getNoteById(userId, id) {
   return prisma.note.findFirst({
     where: {
       userId,
-      noteId: id,
+      id,
     },
   })
 }
@@ -17,7 +17,7 @@ export function createNote(userId, noteDTO) {
   return prisma.note.create({
     data: {
       user: {
-        connect: { userId },
+        connect: { id: userId },
       },
       ...noteDTO,
     },
@@ -28,14 +28,14 @@ export async function updateNote(userId, id, noteDTO) {
   // TODO: See if there is a way to do this in one query
   await prisma.note.findFirst({
     where: {
-      noteId: id,
+      id,
       userId,
     },
   })
 
   return prisma.note.update({
     where: {
-      noteId: id,
+      id,
     },
     data: noteDTO,
   })

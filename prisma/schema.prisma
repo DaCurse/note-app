@@ -8,19 +8,19 @@ datasource db {
 }
 
 model Note {
-  noteId    Int      @id @default(autoincrement()) @map("note_id")
+  id        String   @id @default(uuid())
   title     String   @db.VarChar(255)
   content   String
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
-  userId    Int      @map("user_id")
-  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("notes")
 }
 
 model User {
-  userId       Int      @id @default(autoincrement()) @map("user_id")
+  id           String   @id @default(uuid())
   username     String   @db.VarChar(32)
   passwordHash String   @map("password_hash") @db.VarChar(255)
   createdAt    DateTime @default(now()) @map("created_at") @db.Timestamp(6)

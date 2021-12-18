@@ -9,7 +9,7 @@ export const getNotesDTO = Joi.object({
 })
 
 export const getNoteByIdDTO = Joi.object({
-  id: Joi.number().integer().required(),
+  id: Joi.string().uuid().required(),
 })
 
 export const noteDTO = Joi.object({
