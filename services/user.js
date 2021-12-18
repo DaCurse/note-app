@@ -1,5 +1,7 @@
 import argon2 from 'argon2';
 import HttpErrors from 'http-errors';
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 import prisma from '../providers/prisma.js';
 
 const { Conflict, InternalServerError, Unauthorized } = HttpErrors;
@@ -20,11 +22,17 @@ export async function createUser(userDTO) {
   }
 }
 
+async function createToken(userId, secret, expiresIn) {
+  const data = { userId };
+  return await promisify(jwt.sign)(data, secret, { expiresIn });
+}
+
 export async function loginUser(userDTO) {
   const { username, password } = userDTO;
   const user = await prisma.user.findUnique({
     where: { username },
-    select: { passwordHash: true },
+    select: { userId: true, passwordHash: true },
+    rejectOnNotFound: false,
   });
   if (!user) {
     throw new Unauthorized('Invalid credentials');
@@ -33,5 +41,9 @@ export async function loginUser(userDTO) {
   if (!isValid) {
     throw new Unauthorized('Invalid credentials');
   }
-  // TODO: return jwt
+  return await createToken(
+    user.userId,
+    process.env.JWT_SECRET,
+    process.env.JWT_TTL
+  );
 }

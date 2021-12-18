@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { randomBytes } from 'crypto';
 import createDebug from 'debug';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
@@ -57,6 +58,13 @@ function onClose() {
 }
 
 async function bootstrap() {
+  if (!process.env.JWT_SECRET) {
+    process.env.JWT_SECRET = randomBytes(16).toString('hex');
+  }
+  if (!process.env.JWT_TTL) {
+    process.env.JWT_TTL = '1h';
+  }
+
   const app = await createApp();
   const port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
