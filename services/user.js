@@ -1,49 +1,49 @@
-import argon2 from 'argon2';
-import HttpErrors from 'http-errors';
-import jwt from 'jsonwebtoken';
-import { promisify } from 'util';
-import prisma from '../providers/prisma.js';
+import argon2 from 'argon2'
+import HttpErrors from 'http-errors'
+import jwt from 'jsonwebtoken'
+import { promisify } from 'util'
+import prisma from '../providers/prisma.js'
 
-const { Conflict, InternalServerError, Unauthorized } = HttpErrors;
+const { Conflict, InternalServerError, Unauthorized } = HttpErrors
 
 export async function createUser(userDTO) {
-  const { username, password } = userDTO;
-  const passwordHash = await argon2.hash(password);
+  const { username, password } = userDTO
+  const passwordHash = await argon2.hash(password)
   try {
     return await prisma.user.create({
       select: { userId: true },
       data: { username, passwordHash },
-    });
+    })
   } catch (error) {
     if (error?.code === 'P2002') {
-      throw new Conflict('Username already exists');
+      throw new Conflict('Username already exists')
     }
-    throw InternalServerError();
+    throw InternalServerError()
   }
 }
 
 async function createToken(userId, secret, expiresIn) {
-  const data = { userId };
-  return await promisify(jwt.sign)(data, secret, { expiresIn });
+  const data = { userId }
+  return await promisify(jwt.sign)(data, secret, { expiresIn })
 }
 
 export async function loginUser(userDTO) {
-  const { username, password } = userDTO;
+  const { username, password } = userDTO
   const user = await prisma.user.findUnique({
     where: { username },
     select: { userId: true, passwordHash: true },
     rejectOnNotFound: false,
-  });
+  })
   if (!user) {
-    throw new Unauthorized('Invalid credentials');
+    throw new Unauthorized('Invalid credentials')
   }
-  const isValid = await argon2.verify(user.passwordHash, password);
+  const isValid = await argon2.verify(user.passwordHash, password)
   if (!isValid) {
-    throw new Unauthorized('Invalid credentials');
+    throw new Unauthorized('Invalid credentials')
   }
   return await createToken(
     user.userId,
     process.env.JWT_SECRET,
     process.env.JWT_TTL
-  );
+  )
 }

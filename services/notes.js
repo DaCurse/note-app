@@ -1,7 +1,7 @@
-import prisma from '../providers/prisma.js';
+import prisma from '../providers/prisma.js'
 
 export function getNotes(limit) {
-  return prisma.note.findMany({ take: limit });
+  return prisma.note.findMany({ take: limit })
 }
 
 export function getNoteById(id) {
@@ -9,11 +9,11 @@ export function getNoteById(id) {
     where: {
       noteId: id,
     },
-  });
+  })
 }
 
 export function createNote(noteDTO) {
-  return prisma.note.create({ data: noteDTO });
+  return prisma.note.create({ data: noteDTO })
 }
 
 export function updateNote(id, noteDTO) {
@@ -22,5 +22,5 @@ export function updateNote(id, noteDTO) {
       noteId: id,
     },
     data: noteDTO,
-  });
+  })
 }
