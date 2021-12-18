@@ -1,47 +1,37 @@
-import { Router } from 'express';
-import createHttpError from 'http-errors';
-import validate from '../middleware/validate.js';
-import {
-  getNoteByIdSchema,
-  getNotesSchema,
-  noteDTOSchema,
-} from '../schemas/notes.js';
+import UserStrategy from '../auth/user.js'
+import { getNoteByIdDTO, getNotesDTO, noteDTO } from '../dto/notes.js'
+import authenticate from '../middleware/authenticate.js'
+import validate from '../middleware/validate.js'
 import {
   createNote,
   getNoteById,
   getNotes,
   updateNote,
-} from '../services/notes.js';
+} from '../services/notes.js'
+import AsyncRouter from '../util/async-router.js'
 
-const router = Router();
+const router = new AsyncRouter()
+router.use(authenticate(UserStrategy, { session: false }))
 
-router.get('/', validate(getNotesSchema, 'query'), async (req, res) =>
-  res.json(await getNotes(req.query.limit))
-);
+router.get('/', validate(getNotesDTO, 'query'), async (req, res) =>
+  res.json(await getNotes(req.user.id, req.query.limit))
+)
 
-router.get(
-  '/:id',
-  validate(getNoteByIdSchema, 'params'),
-  async (req, res, next) => {
-    const note = await getNoteById(req.params.id);
-    if (note) {
-      res.json(note);
-    } else {
-      next(createHttpError(404, 'Note not found'));
-    }
-  }
-);
+router.get('/:id', validate(getNoteByIdDTO, 'params'), async (req, res) =>
+  res.json(await getNoteById(req.user.id, req.params.id))
+)
 
-router.post('/', validate(noteDTOSchema, 'body'), async (req, res) =>
-  res.json(await createNote(req.body))
-);
+router.post('/', validate(noteDTO, 'body'), async (req, res) =>
+  res.json(await createNote(req.user.id, req.body))
+)
 
 router.put(
   '/:id',
-  validate(getNoteByIdSchema, 'params'),
-  validate(noteDTOSchema, 'body'),
-  async (req, res) => res.json(await updateNote(req.params.id, req.body))
-);
+  validate(getNoteByIdDTO, 'params'),
+  validate(noteDTO, 'body'),
+  async (req, res) =>
+    res.json(await updateNote(req.user.id, req.params.id, req.body))
+)
 
-export const prefix = '/notes';
-export { router };
+export const prefix = '/notes'
+export { router }

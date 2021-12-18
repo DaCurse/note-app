@@ -1,26 +1,42 @@
-import prisma from '../providers/prisma.js';
+import prisma from '../providers/prisma.js'
 
-export function getNotes(limit) {
-  return prisma.notes.findMany({ take: limit });
+export function getNotes(userId, limit) {
+  return prisma.note.findMany({ where: { userId }, take: limit })
 }
 
-export function getNoteById(id) {
-  return prisma.notes.findUnique({
+export function getNoteById(userId, id) {
+  return prisma.note.findFirst({
     where: {
-      note_id: id,
+      userId,
+      id,
     },
-  });
+  })
 }
 
-export function createNote(noteDTO) {
-  return prisma.notes.create({ data: noteDTO });
+export function createNote(userId, noteDTO) {
+  return prisma.note.create({
+    data: {
+      user: {
+        connect: { id: userId },
+      },
+      ...noteDTO,
+    },
+  })
 }
 
-export function updateNote(id, noteDTO) {
-  return prisma.notes.update({
+export async function updateNote(userId, id, noteDTO) {
+  // TODO: See if there is a way to do this in one query
+  await prisma.note.findFirst({
     where: {
-      note_id: id,
+      id,
+      userId,
+    },
+  })
+
+  return prisma.note.update({
+    where: {
+      id,
     },
     data: noteDTO,
-  });
+  })
 }
