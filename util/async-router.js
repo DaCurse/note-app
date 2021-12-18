@@ -11,8 +11,8 @@ class AsyncRouter {
     return handlers.map(asyncWrap)
   }
 
-  use(path, ...handlers) {
-    this.expressRouter.use(path, ...this.asyncifyHandlers(handlers))
+  use(...args) {
+    this.expressRouter.use.apply(this.expressRouter, args)
   }
 
   handle(method, path, handlers) {

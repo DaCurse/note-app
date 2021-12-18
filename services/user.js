@@ -47,3 +47,10 @@ export async function loginUser(userDTO) {
     process.env.JWT_TTL
   )
 }
+
+export async function getUserById(userId) {
+  return await prisma.user.findUnique({
+    where: { userId },
+    select: { userId: true, username: true },
+  })
+}
