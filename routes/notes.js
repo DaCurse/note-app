@@ -14,15 +14,15 @@ const router = new AsyncRouter()
 router.use(authenticate(UserStrategy, { session: false }))
 
 router.get('/', validate(getNotesDTO, 'query'), async (req, res) =>
-  res.json(await getNotes(req.user.userId, req.query.limit))
+  res.json(await getNotes(req.user.id, req.query.limit))
 )
 
 router.get('/:id', validate(getNoteByIdDTO, 'params'), async (req, res) =>
-  res.json(await getNoteById(req.user.userId, req.params.id))
+  res.json(await getNoteById(req.user.id, req.params.id))
 )
 
 router.post('/', validate(noteDTO, 'body'), async (req, res) =>
-  res.json(await createNote(req.user.userId, req.body))
+  res.json(await createNote(req.user.id, req.body))
 )
 
 router.put(
@@ -30,7 +30,7 @@ router.put(
   validate(getNoteByIdDTO, 'params'),
   validate(noteDTO, 'body'),
   async (req, res) =>
-    res.json(await updateNote(req.user.userId, req.params.id, req.body))
+    res.json(await updateNote(req.user.id, req.params.id, req.body))
 )
 
 export const prefix = '/notes'

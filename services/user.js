@@ -11,7 +11,7 @@ export async function createUser(userDTO) {
   const passwordHash = await argon2.hash(password)
   try {
     return await prisma.user.create({
-      select: { userId: true },
+      select: { id: true },
       data: { username, passwordHash },
     })
   } catch (error) {
@@ -31,7 +31,7 @@ export async function loginUser(userDTO) {
   const { username, password } = userDTO
   const user = await prisma.user.findUnique({
     where: { username },
-    select: { userId: true, passwordHash: true },
+    select: { id: true, passwordHash: true },
     rejectOnNotFound: false,
   })
   if (!user) {
@@ -41,16 +41,12 @@ export async function loginUser(userDTO) {
   if (!isValid) {
     throw new Unauthorized('Invalid credentials')
   }
-  return await createToken(
-    user.userId,
-    process.env.JWT_SECRET,
-    process.env.JWT_TTL
-  )
+  return await createToken(user.id, process.env.JWT_SECRET, process.env.JWT_TTL)
 }
 
-export async function getUserById(userId) {
+export async function getUserById(id) {
   return await prisma.user.findUnique({
-    where: { userId },
-    select: { userId: true, username: true },
+    where: { id },
+    select: { id: true, username: true },
   })
 }
